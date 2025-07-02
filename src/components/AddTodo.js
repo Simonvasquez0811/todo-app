@@ -45,6 +45,38 @@ function AddTodo() {
         }
     };
 
+    return (
+        <div>
+            <h2>Agregar Nuevo Todo</h2>
+
+            <form onSubmit={handleSubmit}>
+                <div>
+                    <label>Título:</label>
+                    <input
+                        type="text"
+                        value={title}
+                        onChange={(e) => setTitle(e.target.value)}
+                        placeholder="Escribe tu tarea..."
+                        disabled={loading}
+                    />
+                </div>
+
+                <div>
+                    <button type="submit" disabled={loading}>
+                        {loading ? 'Guardando...' : 'Agregar Todo'}
+                    </button>
+                    <button
+                        type="button"
+                        onClick={() => navigate('/todos')}
+                        disabled={loading}
+                    >
+                        Cancelar
+                    </button>
+                </div>
+            </form>
+        </div>
+    );
 }
 
 export default AddTodo;
+
