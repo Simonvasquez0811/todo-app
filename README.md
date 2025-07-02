@@ -28,8 +28,10 @@ Una aplicación simple de lista de tareas (Todos) creada con **React**, usando *
 ## 🧪 Cómo ejecutar el proyecto
 
 1. **Clona el repositorio**  
-   git clone https://github.com/Simonvasquez0811/todo-app.git
+
+   git clone [https://github.com/Simonvasquez0811/todo-app.git](https://github.com/Simonvasquez0811/todo-app.git)
    cd todo-app
    npm install
    npx json-server --watch db.json --port 3001
    npm start
+
