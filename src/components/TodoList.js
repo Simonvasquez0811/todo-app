@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 function TodoList() {
     const [todos, setTodos] = useState([]);
-    const [ setLoading] = useState(true);
+    const [loading, setLoading] = useState(true);
 
     // Cargar todos al montar el componente
     useEffect(() => {
@@ -18,7 +18,7 @@ function TodoList() {
             const data = await response.json();
             setTodos(data);
         } catch (error) {
-            alert();
+            alert('Error al cargar los todos');
         } finally {
             setLoading(false);
         }
@@ -46,7 +46,7 @@ function TodoList() {
                 ));
             }
         } catch (error) {
-            alert('');
+            alert('Error al actualizar');
         }
     };
 
@@ -70,7 +70,9 @@ function TodoList() {
         }
     };
 
-   
+    if (loading) {
+        return <div>Cargando...</div>;
+    }
 
     return (
         <div>
@@ -105,8 +107,7 @@ function TodoList() {
             )}
         </div>
     );
-
-   
 }
 
 export default TodoList;
+
