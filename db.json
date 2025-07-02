@@ -1,0 +1,19 @@
+{
+  "todos": [
+    {
+      "id": "1",
+      "title": "Aprender React",
+      "completed": false
+    },
+    {
+      "id": "2",
+      "title": "Hacer ejercicio",
+      "completed": false
+    },
+    {
+      "id": "e575",
+      "title": "sacar la basura",
+      "completed": false
+    }
+  ]
+}
