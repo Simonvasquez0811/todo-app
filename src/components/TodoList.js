@@ -1,16 +1,16 @@
+// TodoList.js
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 function TodoList() {
     const [todos, setTodos] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [filter, setFilter] = useState('todos');
 
-    // Cargar todos al montar el componente
     useEffect(() => {
         loadTodos();
     }, []);
 
-    // GET - Obtener todos los todos
     const loadTodos = async () => {
         try {
             setLoading(true);
@@ -24,7 +24,6 @@ function TodoList() {
         }
     };
 
-    // PATCH - Cambiar estado completado
     const toggleComplete = async (id, completed) => {
         try {
             const response = await fetch(`http://localhost:3001/todos/${id}`, {
@@ -38,7 +37,6 @@ function TodoList() {
             });
 
             if (response.ok) {
-                // Actualizar estado local
                 setTodos(todos.map(todo =>
                     todo.id === id
                         ? { ...todo, completed: !completed }
@@ -50,11 +48,8 @@ function TodoList() {
         }
     };
 
-    // DELETE - Eliminar todo
     const deleteTodo = async (id) => {
-        if (!window.confirm('¿Eliminar este todo?')) {
-            return;
-        }
+        if (!window.confirm('¿Eliminar este todo?')) return;
 
         try {
             const response = await fetch(`http://localhost:3001/todos/${id}`, {
@@ -62,7 +57,6 @@ function TodoList() {
             });
 
             if (response.ok) {
-                // Remover del estado local
                 setTodos(todos.filter(todo => todo.id !== id));
             }
         } catch (error) {
@@ -70,9 +64,13 @@ function TodoList() {
         }
     };
 
-    if (loading) {
-        return <div>Cargando...</div>;
-    }
+    const filteredTodos = todos.filter(todo => {
+        if (filter === 'completados') return todo.completed;
+        if (filter === 'pendientes') return !todo.completed;
+        return true;
+    });
+
+    if (loading) return <div>Cargando...</div>;
 
     return (
         <div>
@@ -80,11 +78,17 @@ function TodoList() {
 
             <Link to="/add">+ Agregar Nuevo Todo</Link>
 
-            {todos.length === 0 ? (
+            <div>
+                <button onClick={() => setFilter('todos')}>Todos</button>
+                <button onClick={() => setFilter('completados')}>Completados</button>
+                <button onClick={() => setFilter('pendientes')}>Pendientes</button>
+            </div>
+
+            {filteredTodos.length === 0 ? (
                 <p>No hay todos. <Link to="/add">Crear el primero</Link></p>
             ) : (
                 <ul>
-                    {todos.map(todo => (
+                    {filteredTodos.map(todo => (
                         <li key={todo.id}>
                             <input
                                 type="checkbox"
@@ -98,6 +102,8 @@ function TodoList() {
                                 {todo.title}
                             </span>
 
+                            <Link to={`/edit/${todo.id}`}>Editar</Link>
+
                             <button onClick={() => deleteTodo(todo.id)}>
                                 Eliminar
                             </button>
@@ -110,4 +116,5 @@ function TodoList() {
 }
 
 export default TodoList;
+
 
